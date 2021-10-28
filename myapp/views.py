@@ -32,7 +32,7 @@ def uploadZip(request):
                 print("小文件上传完毕")
 
         unzip(fpName)
-        rename(position)  #传递位置参数，让rename可以向数据库添加记录
+        importZip(position)  #传递位置参数，让rename可以向数据库添加记录
         os.remove(path) #删除上传的zip文件
     else:
         error = "文件上传为空"
@@ -64,7 +64,7 @@ def uploadSingle(request):
                 f.write(fp.read())
                 print("小文件上传完毕")
 
-        renameSingle(info, path, fpName) #传入表单信息，文件路径和文件名
+        importSingle(info, path, fpName) #传入表单信息，文件路径和文件名
     else:
         error = "文件上传为空"
     resp = {"isSuccess":True}

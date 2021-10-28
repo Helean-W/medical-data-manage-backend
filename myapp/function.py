@@ -6,12 +6,12 @@ import pydicom
 from .models import *
 
 def unzip(fName):
-    zfile = zipfile.ZipFile(os.path.join('./', 'static', 'zipTemp', fName))
-    zfile.extractall(os.path.join('./', 'static', 'dcmTemp'))
+    zfile = zipfile.ZipFile(os.path.join('./', 'resources', 'zipTemp', fName))
+    zfile.extractall(os.path.join('./', 'resources', 'dcmTemp'))
     zfile.close()
 
-def rename(Position):
-    rootdir = './static/dcmTemp'
+def importZip(Position):
+    rootdir = './resources/dcmTemp'
     url = "http://127.0.0.1:8002/"
     list = os.listdir(rootdir)
     for item in list:
@@ -30,11 +30,11 @@ def rename(Position):
         info['Url'] = url + name
         #存入数据库
         Patient.objects.create(name=info["PatientName"], gender=info['PatientSex'], age=info["PatientAge"], position=info['Position'], url=info['Url'])
-        #重命名后移入static目录下长期存储
+        #重命名后移入resources目录下长期存储
         os.rename(path, name)
-        shutil.move(name, './static')
+        shutil.move(name, './resources')
 
-def renameSingle(info, path, fname):
+def importSingle(info, path, fname):
     url = "http://127.0.0.1:8002/"
     name = str(uuid.uuid4()).replace('-','') + '.' + fname.split(".")[1]   #对每个dcm文件产生唯一id
     print(name)
@@ -52,5 +52,5 @@ def renameSingle(info, path, fname):
     info['url'] = url + name
     os.rename(path, name)
     Patient.objects.create(name=info["name"], gender=info['gender'], age=info["age"], position=info['position'], url=info['url'])
-    shutil.move(name, './static')
+    shutil.move(name, './resources')
 
