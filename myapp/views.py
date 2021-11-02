@@ -18,7 +18,7 @@ def uploadZip(request):
     # fp 获取到的上传文件对象
     if fp:
         fpName = str(time.time())+fp.name
-        path = os.path.join('./', 'static', 'zipTemp', fpName)
+        path = os.path.join('./', 'resources', 'zipTemp', fpName)
         if fp.multiple_chunks():
             file_yield = fp.chunks()  # 迭代写入文件
             with open(path,'wb') as f:
@@ -42,7 +42,7 @@ def uploadZip(request):
 def uploadSingle(request):
     fp = request.FILES.get("file")
     info = {}
-    info["name"] = request.POST.get("name")
+    # info["name"] = request.POST.get("name")
     info["gender"] = request.POST.get("gender")
     info["age"] = request.POST.get("age")
     info["position"] = request.POST.get("position")
@@ -51,7 +51,7 @@ def uploadSingle(request):
 
     if fp:
         fpName = fp.name
-        path = os.path.join('./', 'static', 'dcmTemp', fpName)
+        path = os.path.join('./', 'resources', 'dcmTemp', fpName)
         if fp.multiple_chunks():
             file_yield = fp.chunks()  # 迭代写入文件
             with open(path,'wb') as f:
@@ -69,6 +69,33 @@ def uploadSingle(request):
         error = "文件上传为空"
     resp = {"isSuccess":True}
     return HttpResponse(json.dumps(resp), content_type="application/json")
+
+def queryAll(request):
+    resp = {"isSuccess":True, "msg": "success"}
+    cursor = connection.cursor()
+    cursor.execute('''select * from myapp_patient''')
+    row = cursor.fetchall()
+    resp['ret'] = row
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+def deleteItem(request):
+    msg = "delete success!"
+    try:
+        del_id = request.GET.get('id')
+        del_url = Patient.objects.filter(id=del_id)[0].url
+        deleteDcm(del_url)
+        Patient.objects.filter(id=del_id).delete()
+    except Exception as e:
+        msg = "delete failed! "+ str(e)
+    resp = {"isSuccess":True, "msg": msg}
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+def viewDcm(request):
+    dcm_url = request.GET.get('url')
+    img_base64 = dcm2img(dcm_url)
+    os.remove('./resources/jpgTemp/temp.jpg') #删除临时jpg文件
+    return HttpResponse(img_base64, content_type='image/jpeg')
+
 
 
 

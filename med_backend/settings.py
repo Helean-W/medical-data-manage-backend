@@ -122,6 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 #让127.0.0.1:8000+STATIC_URL+xxx.dcm可以访问到resources文件夹下的xxx.dcm
-STATIC_URL = '/'
+STATIC_URL = '/resources/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'resources')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

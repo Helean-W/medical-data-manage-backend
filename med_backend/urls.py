@@ -20,5 +20,8 @@ from myapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('uploadzip/', views.uploadZip),
-    path('uploadsingle/', views.uploadSingle)
+    path('uploadsingle/', views.uploadSingle),
+    path('queryall/', views.queryAll),
+    path('deleteitem/', views.deleteItem),
+    path('viewdcm/', views.viewDcm)
 ]

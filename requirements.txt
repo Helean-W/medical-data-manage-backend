@@ -1,5 +1,8 @@
 Django==2.2.12
 mysqlclient==2.0.3
+numpy==1.18.5
+opencv-python==4.4.0.42
 pydicom==2.0.0
 pytz==2021.3
+SimpleITK==2.0.2
 sqlparse==0.4.2
