@@ -23,5 +23,7 @@ urlpatterns = [
     path('uploadsingle/', views.uploadSingle),
     path('queryall/', views.queryAll),
     path('deleteitem/', views.deleteItem),
-    path('viewdcm/', views.viewDcm)
+    path('viewdcm/', views.viewDcm),
+    path('viewpng/', views.viewPng),
+    path('viewjpg/', views.viewJpg)
 ]
